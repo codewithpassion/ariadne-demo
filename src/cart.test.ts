@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { cartTotal, formatCents } from "./cart";
+import { cartTotal, formatCents, itemCount } from "./cart";
 
 describe("cartTotal", () => {
   test("sums line items", () => {
@@ -7,6 +7,21 @@ describe("cartTotal", () => {
   });
   test("rejects a zero quantity", () => {
     expect(() => cartTotal([{ sku: "a", unitPriceCents: 1, quantity: 0 }])).toThrow("invalid quantity for a");
+  });
+});
+
+describe("itemCount", () => {
+  test("sums quantities", () => {
+    expect(itemCount([{ sku: "a", unitPriceCents: 250, quantity: 2 }, { sku: "b", unitPriceCents: 100, quantity: 3 }])).toBe(5);
+  });
+  test("an empty cart counts zero", () => {
+    expect(itemCount([])).toBe(0);
+  });
+  test("rejects a zero quantity", () => {
+    expect(() => itemCount([{ sku: "a", unitPriceCents: 1, quantity: 0 }])).toThrow("invalid quantity for a");
+  });
+  test("rejects a non-integer quantity", () => {
+    expect(() => itemCount([{ sku: "a", unitPriceCents: 1, quantity: 1.5 }])).toThrow("invalid quantity for a");
   });
 });
 
