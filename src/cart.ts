@@ -18,3 +18,11 @@ export function formatCents(cents: number): string {
   const abs = Math.abs(cents);
   return `${sign}$${Math.floor(abs / 100)}.${String(abs % 100).padStart(2, "0")}`;
 }
+
+/** Applies a percent discount to a total in cents, rounding half up. */
+export function applyDiscount(totalCents: number, percent: number): number {
+  if (!(percent >= 0 && percent <= 100)) {
+    throw new Error(`invalid discount percent: ${percent}`);
+  }
+  return Math.round((totalCents * (100 - percent)) / 100);
+}
