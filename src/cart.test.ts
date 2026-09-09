@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { cartTotal, formatCents } from "./cart";
+import { cartTotal, clear, formatCents } from "./cart";
 
 describe("cartTotal", () => {
   test("sums line items", () => {
@@ -15,5 +15,20 @@ describe("formatCents", () => {
     expect(formatCents(1234)).toBe("$12.34");
     expect(formatCents(5)).toBe("$0.05");
     expect(formatCents(-250)).toBe("-$2.50");
+  });
+});
+
+describe("clear", () => {
+  test("empties a cart and reports the count", () => {
+    const items = [{ sku: "a", unitPriceCents: 250, quantity: 2 }, { sku: "b", unitPriceCents: 100, quantity: 1 }];
+    const result = clear(items);
+    expect(result.items).toEqual([]);
+    expect(result.removed).toBe(2);
+    expect(items.length).toBe(2);
+  });
+  test("clearing an empty cart returns 0", () => {
+    const result = clear([]);
+    expect(result.items).toEqual([]);
+    expect(result.removed).toBe(0);
   });
 });
