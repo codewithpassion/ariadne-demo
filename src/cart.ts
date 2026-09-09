@@ -12,6 +12,18 @@ export function cartTotal(items: LineItem[]): number {
   return total;
 }
 
+/** Total number of units in a cart. Quantities must be positive integers. */
+export function itemCount(items: LineItem[]): number {
+  let count = 0;
+  for (const item of items) {
+    if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
+      throw new Error(`invalid quantity for ${item.sku}`);
+    }
+    count += item.quantity;
+  }
+  return count;
+}
+
 /** Formats cents as a dollar string, e.g. 1234 -> "$12.34". */
 export function formatCents(cents: number): string {
   const sign = cents < 0 ? "-" : "";
