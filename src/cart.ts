@@ -18,3 +18,12 @@ export function formatCents(cents: number): string {
   const abs = Math.abs(cents);
   return `${sign}$${Math.floor(abs / 100)}.${String(abs % 100).padStart(2, "0")}`;
 }
+
+/** Sum of unitPriceCents times quantity over all line items. Does not validate quantities; see cartTotal. */
+export function total(items: LineItem[]): number {
+  let sum = 0;
+  for (const item of items) {
+    sum += item.unitPriceCents * item.quantity;
+  }
+  return sum;
+}
