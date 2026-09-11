@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { cartTotal, formatCents } from "./cart";
+import { cartTotal, formatCents, isEmpty } from "./cart";
 
 describe("cartTotal", () => {
   test("sums line items", () => {
@@ -15,5 +15,14 @@ describe("formatCents", () => {
     expect(formatCents(1234)).toBe("$12.34");
     expect(formatCents(5)).toBe("$0.05");
     expect(formatCents(-250)).toBe("-$2.50");
+  });
+});
+
+describe("isEmpty", () => {
+  test("is true for a cart with no line items", () => {
+    expect(isEmpty([])).toBe(true);
+  });
+  test("is false for a cart with line items", () => {
+    expect(isEmpty([{ sku: "a", unitPriceCents: 100, quantity: 1 }])).toBe(false);
   });
 });
