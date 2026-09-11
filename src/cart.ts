@@ -18,3 +18,8 @@ export function formatCents(cents: number): string {
   const abs = Math.abs(cents);
   return `${sign}$${Math.floor(abs / 100)}.${String(abs % 100).padStart(2, "0")}`;
 }
+
+/** True when the cart has no line items. */
+export function isEmpty(items: LineItem[]): boolean {
+  return items.length === 0;
+}
